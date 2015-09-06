@@ -1,0 +1,20 @@
+<?php
+
+$radio_config = array();
+
+// title for the interface
+$radio_config['title'] = "dpshome";
+// default song to add after radio station. May be empty or not set.
+$radio_config['default_song'] = "silence.mp3";
+
+/*
+ * name: Visible name of the radio station
+ * URL: URL of the stream or playlist, and you may specify an array of the streams
+ * playing_prefix: dirty hack to determine current playing station. It's a just prefix to search from the beginning of mpd current playing song name
+ */
+$radio_config['stations'] = array();
+$radio_config['stations'][] = array('name' => 'Lounge-radio.com: playlist', 'URL' => 'http://www.lounge-radio.com/aacplus.m3u', 'playing_prefix' => 'LOUNGE-RADIO.COM - swiss made');
+$radio_config['stations'][] = array('name' => 'Lounge-radio.com: certain stream', 'URL' => 'http://213.203.195.178:8000');
+$radio_config['stations'][] = array('name' => 'Lounge-radio.com: all streams', 'URL' => array('http://213.203.195.178:8000', 'http://85.17.75.85:8010', 'http://178.32.167.206:8010'));
+
+?>
