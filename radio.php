@@ -23,9 +23,10 @@ function convert_time_to_seconds($time) {
 
 function exec_mpd_command($cmd) {
 	global $debug;
+	global $mpc_options;
 
 	$output = array();
-	@exec("/usr/bin/mpc ".$cmd, $output, $exit_code);
+	@exec("/usr/bin/mpc ".$mpc_options." ".$cmd, $output, $exit_code);
 	if ( $exit_code >0 ) {
 		if ( $debug ) {
 			echo "ERROR while executing mpc:\n";
@@ -152,6 +153,15 @@ function switch_to_URL($URLs) {
 	if ( $debug ) {
 		echo "play URL\n";
 	}
+	
+	// set repeating on (infinite loop)
+	$output = exec_mpd_command("repeat on");
+	if ( $output===false ) {
+		return "cannot set repeat on";
+	}
+	if ( $debug ) {
+		echo "set repeat on\n";
+	}
 
 	if ( $mpd_state['state']!='stop' ) {
 		// delete all songs from old default song to the end of playlist
@@ -263,6 +273,9 @@ if ( isset($_REQUEST['station_num']) ) {
 				} else {
 					$error = "Empty playlist from station!";
 				}
+			} else { // make simple array
+				$URL = $radio_config['stations'][$station_num]['URL'];
+				$radio_config['stations'][$station_num]['URL'] = array($URL);
 			}
 		}
 
